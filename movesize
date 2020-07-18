@@ -1,0 +1,58 @@
+import os
+from shutil import copy
+import random
+import numpy as np
+
+from PIL import ImageFile
+from PIL import Image
+ImageFile.LOAD_TRUNCATED_IMAGES = True
+import numpy as np
+from keras.applications.imagenet_utils import decode_predictions
+from keras.preprocessing import image
+from keras.applications import *
+import glob
+from model import MobileNetV2
+import tensorflow as tf
+import os
+import json
+import time
+tf.enable_eager_execution()
+
+
+
+def mkfile(file):
+    if not os.path.exists(file):
+        os.makedirs(file)
+
+
+path = ("../../images_3/tes/")
+
+def file_name(file_path):
+
+    for root, dirs, files in os.walk(file_path):
+
+        return dirs
+
+
+cout = 0
+for clc in file_name(path):
+    j_names = glob.glob(path + clc +'/' +  '*.jpeg')
+    p_names = glob.glob(path + clc + '/' + '*.png')
+    f_names = j_names + p_names
+    # 把图片读取出来放到列表中
+    for i in range(len(f_names)):
+        try:
+            img = Image.open(f_names[i])
+            width, height = img.size
+            img.close()
+            if width < 400 or height < 400:
+                cout += 1
+                print("删除图片：".cout,f_names[i])
+                os.remove(f_names[i])
+        except Exception as e:
+            print("损坏图片：",f_names[i])
+            os.remove(f_names[i])
+
+
+
+
